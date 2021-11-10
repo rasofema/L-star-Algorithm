@@ -1,9 +1,9 @@
 class DFA():
-    def __init__(self, states, alphabeth, transitions, start_state, accepting_states):
+    def __init__(self, states, alphabet, transitions, start_state, accepting_states):
         self.states = states                      #set
-        self.alphabeth = alphabeth                #set
+        self.alphabet = alphabet                #set
         self.transitions = transitions            #dict of dict
-        self.start_state = start_state            #int
+        self.start_state = start_state
         self.accepting_states = accepting_states  #set
 
     def accepts(self, string):
