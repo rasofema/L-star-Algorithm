@@ -28,3 +28,6 @@ def union(dfa1, dfa2):
         )
     
     return DFA(states, alphabet, transitions, start_state, accepting_states)
+
+def complement(dfa):
+    return DFA(dfa.states, dfa.alphabet, dfa.transitions, dfa.start_state, dfa.states.difference(dfa.accepting_states))

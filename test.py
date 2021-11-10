@@ -77,9 +77,20 @@ def dfa_union_different_alphabet():
     assert union.accepts("11") == True
     assert union.accepts("1") == False
 
+def dfa_complement():
+    complement = dfa_operations.complement(dfa1)
+    assert complement.accepts("") == False
+    assert complement.accepts("0") == True
+    assert complement.accepts("00") == True
+    assert complement.accepts("000") == False
+    assert complement.accepts("0000") == True
+    assert complement.accepts("00000") == True
+    assert complement.accepts("000000") == False
+
 if __name__ == "__main__":
     dfa_accepts_string()
     dfa_reaches_state()
     dfa_union_same_alphabet()
     dfa_union_different_alphabet()
+    dfa_complement()
     print("Everything passed")
