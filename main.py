@@ -1,7 +1,7 @@
-from membership_oracle import Membership_Oracle
-from equivalence_oracle import Equivalence_Oracle
-from observation_table import Observation_Table
-from dfa import DFA
+from classes.membership_oracle import Membership_Oracle
+from classes.equivalence_oracle import Equivalence_Oracle
+from classes.observation_table import Observation_Table
+from classes.dfa import DFA
 
 
 # TODO: can the alphabet contain epsilon? There might be bugs in that case cause you can't append None to a string

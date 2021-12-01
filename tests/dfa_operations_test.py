@@ -1,4 +1,4 @@
-import dfa_operations
+from classes import dfa_operations
 
 def dfa_union_same_alphabet(dfa1, dfa2):
     union = dfa_operations.union(dfa1, dfa2)

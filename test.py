@@ -1,6 +1,6 @@
-from dfa import DFA
-from membership_oracle import Membership_Oracle
-from equivalence_oracle import Equivalence_Oracle
+from classes.dfa import DFA
+from classes.membership_oracle import Membership_Oracle
+from classes.equivalence_oracle import Equivalence_Oracle
 from tests import dfa_test, dfa_operations_test, membership_oracle_test, equivalence_oracle_test
 
 def dfa1(): # DFA 1 - accepts strings with a number of 0s multiple of 3
