@@ -170,7 +170,7 @@ def add_counterexample_to_table(counterexample, observation_table, membership_or
                     observation_table.prefixes_with_alphabet_table[string] = string_with_suffixes_membership_list
 
 
-def algorithm(target_dfa : DFA):
+def algorithm(target_dfa : DFA) -> DFA:
     alphabet = target_dfa.alphabet
     membership_oracle = Membership_Oracle(target_dfa)
     equivalence_oracle = Equivalence_Oracle(membership_oracle)
