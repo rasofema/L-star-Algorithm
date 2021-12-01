@@ -1,3 +1,4 @@
+from typing import Tuple
 from classes.membership_oracle import Membership_Oracle
 from classes.equivalence_oracle import Equivalence_Oracle
 from classes.observation_table import Observation_Table
@@ -6,22 +7,12 @@ from classes.dfa import DFA
 
 # TODO: can the alphabet contain epsilon? There might be bugs in that case cause you can't append None to a string
 
-def create_observation_table(alphabet, membership_oracle):
-    epsilon_membership = membership_oracle.accepts("")
-
-    prefixes_with_alphabet_membership = dict()
-    for a in alphabet:
-        prefixes_with_alphabet_membership[a] = membership_oracle.accepts(a)
-    
-    return Observation_Table(alphabet, epsilon_membership, prefixes_with_alphabet_membership)
-
-
 def consistent(observation_table):
     prefixes = list(observation_table.prefixes_table.keys())
     for i in range(len(prefixes) - 1):
         for j in range(i + 1, len(prefixes)):
-            prefix1 = prefixes[i]
-            prefix2 = prefixes[j]
+            prefix1 : str = prefixes[i]
+            prefix2 : str = prefixes[j]
             if observation_table.prefixes_table[prefix1] == observation_table.prefixes_table[prefix2]:
                 for a in observation_table.alphabet:
                     table = observation_table.prefixes_table | observation_table.prefixes_with_alphabet_table
@@ -87,14 +78,14 @@ def make_consistent(observation_table, membership_oracle, prefix1, prefix2, suff
 
 
 def make_table_closed_and_consistent(observation_table, membership_oracle):
-    co = consistent(observation_table)
-    cl = closed(observation_table)
+    co : Tuple(str, str, chr) = consistent(observation_table)
+    cl : str = closed(observation_table)
 
     while co != None or cl != None:
         if co != None:
-            prefix1 = co[0]
-            prefix2 = co[1]
-            suffix_a = co[2]
+            prefix1 : str = co[0]
+            prefix2 : str = co[1]
+            suffix_a : chr = co[2]
             make_consistent(observation_table, membership_oracle, prefix1, prefix2, suffix_a)
         
         if cl != None:
@@ -110,7 +101,7 @@ def create_dfa(observation_table):
         if row not in unique_rows_of_prefixes:
             unique_rows_of_prefixes.append(row)
     
-    states = [_ for _ in range(len(unique_rows_of_prefixes))]
+    states = set([_ for _ in range(len(unique_rows_of_prefixes))])
 
     alphabet = observation_table.alphabet
 
@@ -179,12 +170,11 @@ def add_counterexample_to_table(counterexample, observation_table, membership_or
                     observation_table.prefixes_with_alphabet_table[string] = string_with_suffixes_membership_list
 
 
-def main(target_dfa):
+def algorithm(target_dfa : DFA):
     alphabet = target_dfa.alphabet
     membership_oracle = Membership_Oracle(target_dfa)
     equivalence_oracle = Equivalence_Oracle(membership_oracle)
-
-    observation_table = create_observation_table(alphabet, membership_oracle)
+    observation_table = Observation_Table(alphabet, membership_oracle)
 
     while True:
         make_table_closed_and_consistent(observation_table, membership_oracle)

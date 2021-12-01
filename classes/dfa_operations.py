@@ -1,7 +1,7 @@
 import itertools
 from classes.dfa import DFA
 
-def union(dfa1, dfa2):
+def union(dfa1 : DFA, dfa2 : DFA):
     states = set(itertools.product(dfa1.states, dfa2.states))
     alphabet = set.union(dfa1.alphabet, dfa2.alphabet)
 

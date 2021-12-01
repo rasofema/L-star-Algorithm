@@ -1,12 +1,9 @@
-import main
+from main import algorithm
 
 def run(dfa):
-    result = main.main(dfa)
+    result = algorithm(dfa)
 
-    states = dfa.states
-    states.remove(None)
-
-    assert result.states == states
+    assert result.states == dfa.states
     assert result.alphabet == dfa.alphabet
     assert result.transitions == dfa.transitions
     assert result.start_state == dfa.start_state

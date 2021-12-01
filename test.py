@@ -1,7 +1,7 @@
 from classes.dfa import DFA
 from classes.membership_oracle import Membership_Oracle
 from classes.equivalence_oracle import Equivalence_Oracle
-from tests import dfa_test, dfa_operations_test, membership_oracle_test, equivalence_oracle_test
+from tests import dfa_test, dfa_operations_test, membership_oracle_test, equivalence_oracle_test, main_test
 
 def dfa1(): # DFA 1 - accepts strings with a number of 0s multiple of 3
     states = {0, 1, 2}
@@ -54,4 +54,5 @@ if __name__ == "__main__":
     print(dfa_operations_test.main(dfa1(), dfa2(), dfa3()))
     print(membership_oracle_test.main(membership_oracle()))
     print(equivalence_oracle_test.main(equivalence_oracle(), dfa1(), dfa2()))
+    print(main_test.main(dfa1(), dfa2(), dfa3()))
     print("-------------ALL PASSED------------")
