@@ -1,15 +1,13 @@
-import random
-
-from membership_oracle import Membership_Oracle
+from itertools import product
 
 class Equivalence_Oracle():
-    def __init__(self, dfa):
-        self.membership_oracle = Membership_Oracle(dfa)
+    def __init__(self, membership_oracle):
+        self.membership_oracle = membership_oracle
     
-    def hypothesis_is_correct(self, hypothesis):
+    def accepts(self, hypothesis):
         alphabet = list(self.membership_oracle.dfa.alphabet)
-        for _ in range(1000):
-            test_string = random.choices(alphabet, k=random.randint(0, 1000))
-            if hypothesis.accepts(test_string) != self.membership_oracle.accepts(test_string):
-                return test_string
+        for size in range(1000):
+            for test_string in [''.join(a) for a in product(alphabet, repeat=size)]:
+                if hypothesis.accepts(test_string) != self.membership_oracle.accepts(test_string):
+                    return test_string
         return True
