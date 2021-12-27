@@ -20,3 +20,20 @@ class DFA():
             current_state = self.transitions[current_state][char]
         
         return current_state
+    
+    def is_empty(self):
+        visited = set()
+        queue = [self.start_state]
+
+        while(queue):
+            state = queue.pop(0)
+            visited.add(state)
+            for reachable_state in self.transitions[state].values():
+                if reachable_state not in visited:
+                    queue.append(reachable_state)
+        
+        for state in visited:
+            if state in self.accepting_states:
+                return False
+        
+        return True
