@@ -30,12 +30,15 @@ class Classification_Tree(Data_Structure):
 
         result = equivalence_oracle.accepts(DFA({0}, alphabet, transitions, 0, accepting_states))
         
+        if accepting_states:
+            self.root_node.right = Node("", self.root_node)
+        else:
+            self.root_node.left = Node("", self.root_node)
+
         if result != True:
             if accepting_states:
-                self.root_node.right = Node("", self.root_node)
                 self.root_node.left = Node(result, self.root_node)
             else:
-                self.root_node.left = Node("", self.root_node)
                 self.root_node.right = Node(result, self.root_node)
 
     
@@ -44,7 +47,8 @@ class Classification_Tree(Data_Structure):
         self.__get_access_strings(access_strings, self.root_node)
 
         accepting_strings = set()
-        self.__get_access_strings(accepting_strings, self.root_node.right)
+        if self.root_node.right != None:
+            self.__get_access_strings(accepting_strings, self.root_node.right)
 
         transitions = dict()
 
@@ -63,8 +67,10 @@ class Classification_Tree(Data_Structure):
         if node.is_leaf():
             lst.add(node.value)
         else:
-            self.__get_access_strings(lst, node.left)
-            self.__get_access_strings(lst, node.right)
+            if node.left != None:
+                self.__get_access_strings(lst, node.left)
+            if node.right != None:
+                self.__get_access_strings(lst, node.right)
 
 
     def add_counterexample(self, counterexample):
