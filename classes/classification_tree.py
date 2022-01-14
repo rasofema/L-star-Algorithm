@@ -1,3 +1,4 @@
+from time import sleep
 from typing import Tuple
 from classes.data_structure import Data_Structure
 from classes.dfa import DFA
@@ -76,25 +77,33 @@ class Classification_Tree(Data_Structure):
     def add_counterexample(self, counterexample):
         hypothesis = self.create_dfa()
 
-        prefix_size = 1
-        while prefix_size < len(counterexample):
-            sift_result = self.__sift(counterexample[:prefix_size])
-            reaching_state = hypothesis.reaching_state(counterexample[:prefix_size])
-            if sift_result.value != reaching_state:
-                break
-            prefix_size += 1
+        if len(counterexample) == 1:
+            prefix_size = 1
+        else:
+            min_p = 0
+            max_p = len(counterexample)
+            prefix_size = len(counterexample) // 2
+            while max_p - min_p > 1:
+                sift_result = self.__sift(counterexample[:prefix_size])
+                reaching_state = hypothesis.reaching_state(counterexample[:prefix_size])
+                if sift_result.value == reaching_state:
+                    min_p = prefix_size
+                else:
+                    max_p = prefix_size
+                prefix_size = (min_p + max_p) // 2
+            
         
         prev_node = sift_result.parent
-        if self.membership_oracle.accepts(counterexample[:prefix_size-1]+prev_node.value):
+        if self.membership_oracle.accepts(counterexample[:prefix_size]+prev_node.value):
             value = prev_node.right.value
-            prev_node.right = Node(counterexample[prefix_size-1] + prev_node.value, prev_node)
+            prev_node.right = Node(counterexample[prefix_size] + prev_node.value, prev_node)
             prev_node.right.right = Node(value, prev_node.right)
-            prev_node.right.left = Node(counterexample[:prefix_size-1], prev_node.right)
+            prev_node.right.left = Node(counterexample[:prefix_size], prev_node.right)
         else:
             value = prev_node.left.value
-            prev_node.left = Node(counterexample[prefix_size-1] + prev_node.value, prev_node)
+            prev_node.left = Node(counterexample[prefix_size] + prev_node.value, prev_node)
             prev_node.left.left = Node(value, prev_node.left)
-            prev_node.left.right = Node(counterexample[:prefix_size-1], prev_node.left)
+            prev_node.left.right = Node(counterexample[:prefix_size], prev_node.left)
 
 
     def __sift(self, string) -> Node:

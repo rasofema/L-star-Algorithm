@@ -23,7 +23,7 @@ def get_running_time(dfa, data_structure : Data_Structure):
 
 if __name__ == "__main__":
     print("-----------START TESTING-----------")
-    """ print("OBSERVATION TABLE - ALPHABET SIZE: 1")
+    print("OBSERVATION TABLE - ALPHABET SIZE: 1")
     for n in NUMBER_OF_STATES:
         result = get_running_time(DFA_Generator(n, {'0'}), Observation_Table)
         print("Number of states: " + str(n) + "; Time elapsed: " + str(result[0]))
@@ -36,7 +36,7 @@ if __name__ == "__main__":
         print("Number of states: " + str(n) + "; Time elapsed: " + str(result[0]))
         print(" - Number of membership queries: " + str(result[1]))
         print(" - Number of membership queries including equivalence queries: " + str(result[2]))
- """
+
     print("CLASSIFICATION TREE - ALPHABET SIZE: 1")
     for n in NUMBER_OF_STATES:
         result = get_running_time(DFA_Generator(n, {'0'}), Classification_Tree)
