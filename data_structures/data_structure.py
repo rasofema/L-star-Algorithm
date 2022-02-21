@@ -1,7 +1,6 @@
 from abc import abstractmethod
 
-from classes.equivalence_oracle import Equivalence_Oracle
-from classes.membership_oracle import Membership_Oracle
+from oracles.membership_oracle import Membership_Oracle
 
 
 class Data_Structure():

@@ -1,4 +1,4 @@
-from classes.dfa import DFA
+from automata.dfa import DFA
 
 # accepts strings with a length multiple of n
 class DFA_Generator(DFA):

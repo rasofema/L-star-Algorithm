@@ -1,13 +1,12 @@
 from math import e
 from typing import Tuple
-from classes.data_structure import Data_Structure
-from classes.dfa import DFA
-from classes.equivalence_oracle import Equivalence_Oracle
-from classes.membership_oracle import Membership_Oracle
-from classes.data_structure import Data_Structure
+from data_structures.data_structure import Data_Structure
+from automata.dfa import DFA
+from oracles.membership_oracle import Membership_Oracle
+from data_structures.data_structure import Data_Structure
 
 class Observation_Table(Data_Structure):
-    def __init__(self, alphabet : set, membership_oracle : Membership_Oracle, equivalence_oracle : Equivalence_Oracle):
+    def __init__(self, alphabet : set, membership_oracle : Membership_Oracle):
         super().__init__(alphabet, membership_oracle)
         self.suffixes = [None]                                              # E
         self.prefixes_table = {None : [membership_oracle.accepts("")]}      # S

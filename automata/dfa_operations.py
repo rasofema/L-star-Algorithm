@@ -1,5 +1,5 @@
 import itertools
-from classes.dfa import DFA
+from automata.dfa import DFA
 
 def union(dfa1 : DFA, dfa2 : DFA):
     states = set(itertools.product(dfa1.states, dfa2.states))

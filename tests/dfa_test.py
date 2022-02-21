@@ -1,4 +1,4 @@
-from classes.dfa import DFA
+from automata.dfa import DFA
 
 
 def dfa_accepts_string(dfa : DFA):

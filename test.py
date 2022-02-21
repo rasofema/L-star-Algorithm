@@ -1,7 +1,8 @@
-from classes.dfa_generator import DFA_Generator
-from classes.mealy_machine_generator import Mealy_Machine_Generator
-from classes.membership_oracle import Membership_Oracle
-from classes.equivalence_oracle import Equivalence_Oracle
+from automata.dfa_generator import DFA_Generator
+from automata.mealy_machine_generator import Mealy_Machine_Generator
+from oracles.cache_oracle import Cache_Oracle
+from oracles.membership_oracle import Membership_Oracle
+from oracles.equivalence_oracle import Equivalence_Oracle
 from tests import dfa_test, mealy_machine_test, dfa_operations_test, membership_oracle_test, equivalence_oracle_test, observation_table_test, classification_tree_test
 from tests.mealy_machine_test import mealy_machine_outputs
 
@@ -10,7 +11,7 @@ def membership_oracle(dfa):
     return Membership_Oracle(dfa)
 
 def equivalence_oracle(dfa):
-    return Equivalence_Oracle(membership_oracle(dfa))
+    return Equivalence_Oracle(Cache_Oracle(membership_oracle(dfa)))
 
 
 

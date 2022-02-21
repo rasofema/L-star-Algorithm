@@ -1,6 +1,6 @@
-from classes.data_structure import Data_Structure
-from classes.equivalence_oracle import Equivalence_Oracle
-from classes.dfa import DFA
+from data_structures.data_structure import Data_Structure
+from automata.dfa import DFA
+from oracles.equivalence_oracle import Equivalence_Oracle
 
 def algorithm(equivalence_oracle : Equivalence_Oracle, data_structure : Data_Structure) -> DFA:
     while True:

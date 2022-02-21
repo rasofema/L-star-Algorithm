@@ -1,4 +1,4 @@
-from classes.mealy_machine import Mealy_Machine
+from automata.mealy_machine import Mealy_Machine
 
 # outputs 1 on input with a length multiple of n, 0 for the rest
 class Mealy_Machine_Generator(Mealy_Machine):

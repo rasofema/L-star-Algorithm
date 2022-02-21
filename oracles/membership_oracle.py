@@ -1,10 +1,9 @@
-from classes.dfa import DFA
+from automata.dfa import DFA
+from oracles.oracle import Oracle
 
-class Membership_Oracle():
+class Membership_Oracle(Oracle):
     def __init__(self, dfa : DFA):
         self.dfa = dfa
-        self.counter = 0 #COUNTER
     
     def accepts(self, string : str):
-        self.counter += 1 #COUNTER
         return self.dfa.accepts(string)

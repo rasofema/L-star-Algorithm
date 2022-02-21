@@ -1,4 +1,4 @@
-from classes.mealy_machine import Mealy_Machine
+from automata.mealy_machine import Mealy_Machine
 
 
 def mealy_machine_outputs(mealy_machine : Mealy_Machine):
