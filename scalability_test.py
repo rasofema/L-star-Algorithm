@@ -20,7 +20,7 @@ def get_running_time(dfa, data_structure : Data_Structure):
     start_time = perf_counter()
     algorithm(equivalence_oracle, data_structure(dfa.alphabet, membership_oracle))
     end_time = perf_counter()
-
+    
     return (end_time - start_time, membership_oracle.counter - equivalence_oracle.counter)
 
 def random_dfa():

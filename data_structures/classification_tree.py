@@ -1,6 +1,5 @@
 from data_structures.data_structure import Data_Structure
 from automata.dfa import DFA
-from oracles.equivalence_oracle import Equivalence_Oracle
 from oracles.membership_oracle import Membership_Oracle
 from data_structures.data_structure import Data_Structure
 
@@ -20,39 +19,26 @@ class Classification_Tree(Data_Structure):
         super().__init__(alphabet, membership_oracle)
         self.root_node = Node("", None)
 
-        transitions = {0 : dict()}
-        for a in alphabet:
-            transitions[0][a] = 0
-
-        accepting_states = set()
         if membership_oracle.accepts(""):
-            accepting_states.add(0)
-
-        result = Equivalence_Oracle(membership_oracle).accepts(DFA({0}, alphabet, transitions, 0, accepting_states))
-        
-        if accepting_states:
             self.root_node.right = Node("", self.root_node)
+            self.root_node.left = None
         else:
+            self.root_node.right = None
             self.root_node.left = Node("", self.root_node)
-
-        if result != True:
-            if accepting_states:
-                self.root_node.left = Node(result, self.root_node)
-            else:
-                self.root_node.right = Node(result, self.root_node)
 
     
     def create_dfa(self):
         access_strings = self.__get_access_strings(self.root_node)
-
-        if self.root_node.right != None:
-            accepting_strings = self.__get_access_strings(self.root_node.right)
+        accepting_strings = self.__get_access_strings(self.root_node.right)
 
         transitions = dict()
 
         for s in access_strings:
             for a in self.alphabet:
-                sift_result = self.__sift(s + a).value
+                sift_result = self.__sift(s + a)
+                if sift_result != None:
+                    sift_result = sift_result.value
+                
                 if s not in transitions:
                     transitions[s] = {a : sift_result}
                 else:
@@ -64,13 +50,14 @@ class Classification_Tree(Data_Structure):
     def __get_access_strings(self, node):
         access_strings = set()
 
-        if node.is_leaf():
-            access_strings.add(node.value)
-        else:
-            if node.left != None:
-                access_strings.update(self.__get_access_strings(node.left))
-            if node.right != None:
-                access_strings.update(self.__get_access_strings(node.right))
+        if node != None:
+            if node.is_leaf():
+                access_strings.add(node.value)
+            else:
+                if node.left != None:
+                    access_strings.update(self.__get_access_strings(node.left))
+                if node.right != None:
+                    access_strings.update(self.__get_access_strings(node.right))
         
         return access_strings
 
@@ -81,7 +68,16 @@ class Classification_Tree(Data_Structure):
         prefix_size = 1
         sift_result = self.__sift(counterexample[:prefix_size])
         reaching_state = hypothesis.reaching_state(counterexample[:prefix_size])
+
         while prefix_size < len(counterexample):
+
+            if sift_result == None: # from initialization
+                if self.root_node.right == None:
+                    self.root_node.right = Node(counterexample[:prefix_size], self.root_node)
+                else:
+                    self.root_node.left = Node(counterexample[:prefix_size], self.root_node)
+                return
+            
             if sift_result.value != reaching_state:
                 break
             prefix_size += 1
@@ -120,7 +116,7 @@ class Classification_Tree(Data_Structure):
             else:
                 current_node = current_node.left
             
-            if current_node.is_leaf():
+            if current_node == None or current_node.is_leaf():
                 return current_node
 
     def __lowest_common_ancestor(self, node : Node, value1, value2):

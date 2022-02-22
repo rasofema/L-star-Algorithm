@@ -15,7 +15,7 @@ class DFA():
         current_state = self.start_state
 
         for char in string:
-            if char not in self.transitions[current_state]: #transition does not exist
+            if current_state == None or char not in self.transitions[current_state]: #transition does not exist
                 return None
             current_state = self.transitions[current_state][char]
         
