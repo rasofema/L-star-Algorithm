@@ -1,22 +1,19 @@
-class Mealy_Machine():
+from automata.automaton import Automaton
+
+class Mealy_Machine(Automaton):
     def __init__(self, states : set, start_state, input_alphabet : set, output_alphabet : set, transitions : dict, outputs : dict):
-        self.states = states
-        self.states.add(None)
-        
-        self.start_state = start_state
-        self.input_alphabet = input_alphabet
+        super().__init__(states, start_state, input_alphabet, transitions)
         self.output_alphabet = output_alphabet
-        self.transitions = transitions
         self.outputs = outputs
 
-    def final_output(self, string : str):
+    def query(self, string : str):
         if len(string) == 0:
             return None
         penultimate_state = self.reaching_state(string[:-1])
         return self.outputs[penultimate_state][string[-1]]
         
     
-    def reaching_state(self, string : str): # TODO: does it need to be public?
+    def reaching_state(self, string : str):
         current_state = self.start_state
 
         for char in string:

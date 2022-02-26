@@ -2,11 +2,11 @@ from automata.mealy_machine import Mealy_Machine
 
 
 def mealy_machine_outputs(mealy_machine : Mealy_Machine):
-    assert mealy_machine.final_output("") == None
-    assert mealy_machine.final_output("0") == 0
-    assert mealy_machine.final_output("00") == 0
-    assert mealy_machine.final_output("000") == 1
-    assert mealy_machine.final_output("0000") == 0
+    assert mealy_machine.query("") == None
+    assert mealy_machine.query("0") == 0
+    assert mealy_machine.query("00") == 0
+    assert mealy_machine.query("000") == 1
+    assert mealy_machine.query("0000") == 0
 
 def mealy_machine_reaches_state(mealy_machine : Mealy_Machine):
     assert mealy_machine.reaching_state("") == 0

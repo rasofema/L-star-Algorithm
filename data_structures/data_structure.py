@@ -9,7 +9,7 @@ class Data_Structure():
         self.membership_oracle = membership_oracle
 
     @abstractmethod
-    def create_dfa(self):
+    def create_automata(self):
         raise NotImplementedError
     
     @abstractmethod

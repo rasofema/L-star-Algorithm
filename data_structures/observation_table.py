@@ -9,13 +9,13 @@ class Observation_Table(Data_Structure):
     def __init__(self, alphabet : set, membership_oracle : Membership_Oracle):
         super().__init__(alphabet, membership_oracle)
         self.suffixes = [None]                                              # E
-        self.prefixes_table = {None : [membership_oracle.accepts("")]}      # S
+        self.prefixes_table = {None : [membership_oracle.query("")]}        # S
         self.prefixes_with_alphabet_table = dict()                          # S·A
 
         for a in alphabet:
-            self.prefixes_with_alphabet_table[a] = [membership_oracle.accepts(a)]
+            self.prefixes_with_alphabet_table[a] = [membership_oracle.query(a)]
     
-    def create_dfa(self) -> DFA:
+    def create_automata(self) -> DFA:
         self.__make_closed_and_consistent()
 
         unique_rows_of_prefixes = [self.prefixes_table[None]]
@@ -122,9 +122,9 @@ class Observation_Table(Data_Structure):
                     key = prefix
                     if prefix == None:
                         prefix = ""
-                    self.prefixes_table[key].append(self.membership_oracle.accepts(prefix+full_suffix))
+                    self.prefixes_table[key].append(self.membership_oracle.query(prefix+full_suffix))
                 for prefix in self.prefixes_with_alphabet_table:
-                    self.prefixes_with_alphabet_table[prefix].append(self.membership_oracle.accepts(prefix+full_suffix))
+                    self.prefixes_with_alphabet_table[prefix].append(self.membership_oracle.query(prefix+full_suffix))
                 break
     
     def __make_closed(self, cl):
@@ -141,7 +141,7 @@ class Observation_Table(Data_Structure):
                 for suffix in self.suffixes:
                     if suffix == None:
                         suffix = ""
-                    string_with_suffixes_membership_list.append(self.membership_oracle.accepts(string+suffix))
+                    string_with_suffixes_membership_list.append(self.membership_oracle.query(string+suffix))
                 self.prefixes_with_alphabet_table[string] = string_with_suffixes_membership_list
 
     def add_counterexample(self, counterexample):
@@ -159,7 +159,7 @@ class Observation_Table(Data_Structure):
                     for suffix in self.suffixes:
                         if suffix == None:
                             suffix = ""
-                        substring_with_suffixes_membership_list.append(self.membership_oracle.accepts(substring+suffix))
+                        substring_with_suffixes_membership_list.append(self.membership_oracle.query(substring+suffix))
                     self.prefixes_table[substring] = substring_with_suffixes_membership_list
             
                 # expand S.A
@@ -171,5 +171,5 @@ class Observation_Table(Data_Structure):
                         for suffix in self.suffixes:
                             if suffix == None:
                                 suffix = ""
-                            string_with_suffixes_membership_list.append(self.membership_oracle.accepts(string+suffix))
+                            string_with_suffixes_membership_list.append(self.membership_oracle.query(string+suffix))
                         self.prefixes_with_alphabet_table[string] = string_with_suffixes_membership_list

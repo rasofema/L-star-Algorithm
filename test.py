@@ -25,7 +25,7 @@ if __name__ == "__main__":
     print(dfa_test.main(dfa1))
     print(mealy_machine_test.main(mealy1))
     print(dfa_operations_test.main(dfa1, dfa2, dfa3))
-    print(membership_oracle_test.main(membership_oracle(dfa1)))
+    print(membership_oracle_test.main(dfa1, mealy1))
     print(equivalence_oracle_test.main(equivalence_oracle(dfa1), dfa1, dfa2))
     print(observation_table_test.main([dfa1, dfa2, dfa3]))
     print(classification_tree_test.main([dfa1, dfa2, dfa3]))

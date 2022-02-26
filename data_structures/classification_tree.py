@@ -19,7 +19,7 @@ class Classification_Tree(Data_Structure):
         super().__init__(alphabet, membership_oracle)
         self.root_node = Node("", None)
 
-        if membership_oracle.accepts(""):
+        if membership_oracle.query(""):
             self.root_node.right = Node("", self.root_node)
             self.root_node.left = None
         else:
@@ -27,7 +27,7 @@ class Classification_Tree(Data_Structure):
             self.root_node.left = Node("", self.root_node)
 
     
-    def create_dfa(self):
+    def create_automata(self):
         access_strings = self.__get_access_strings(self.root_node)
         accepting_strings = self.__get_access_strings(self.root_node.right)
 
@@ -63,7 +63,7 @@ class Classification_Tree(Data_Structure):
 
 
     def add_counterexample(self, counterexample):
-        hypothesis = self.create_dfa()
+        hypothesis = self.create_automata()
 
         prefix_size = 1
         sift_result = self.__sift(counterexample[:prefix_size])
@@ -91,7 +91,7 @@ class Classification_Tree(Data_Structure):
         old_node_value = node.value
 
         #substitute access string of prefix - 1 by new inner node
-        if self.membership_oracle.accepts(old_node_value):
+        if self.membership_oracle.query(old_node_value):
             prev_node.right = Node(inner_node_value, prev_node)
             node = prev_node.right
         else:
@@ -99,7 +99,7 @@ class Classification_Tree(Data_Structure):
             node = prev_node.left
 
         # add leaves
-        if self.membership_oracle.accepts(old_node_value + inner_node_value):
+        if self.membership_oracle.query(old_node_value + inner_node_value):
             node.right = Node(old_node_value, node)
             node.left = Node(counterexample[:prefix_size-1], node)
         else:
@@ -111,7 +111,7 @@ class Classification_Tree(Data_Structure):
         current_node = self.root_node
 
         while True:
-            if self.membership_oracle.accepts(string+current_node.value):
+            if self.membership_oracle.query(string+current_node.value):
                 current_node = current_node.right
             else:
                 current_node = current_node.left

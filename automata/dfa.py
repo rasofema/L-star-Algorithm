@@ -1,14 +1,11 @@
-class DFA():
+from automata.automaton import Automaton
+
+class DFA(Automaton):
     def __init__(self, states : set, alphabet : set, transitions : dict, start_state, accepting_states : set):
-        self.states = states
-        self.states.add(None)
-        
-        self.alphabet = alphabet
-        self.transitions = transitions
-        self.start_state = start_state
+        super().__init__(states, start_state, alphabet, transitions)
         self.accepting_states = accepting_states
 
-    def accepts(self, string : str):
+    def query(self, string : str):
         return self.reaching_state(string) in self.accepting_states
     
     def reaching_state(self, string : str):

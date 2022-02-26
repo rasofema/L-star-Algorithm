@@ -2,11 +2,11 @@ from automata.dfa import DFA
 
 
 def dfa_accepts_string(dfa : DFA):
-    assert dfa.accepts("") == True
-    assert dfa.accepts("0") == False
-    assert dfa.accepts("00") == False
-    assert dfa.accepts("000") == True
-    assert dfa.accepts("0000") == False
+    assert dfa.query("") == True
+    assert dfa.query("0") == False
+    assert dfa.query("00") == False
+    assert dfa.query("000") == True
+    assert dfa.query("0000") == False
 
 def dfa_reaches_state(dfa : DFA):
     assert dfa.reaching_state("") == 0
