@@ -65,24 +65,32 @@ class Classification_Tree(Data_Structure):
     def add_counterexample(self, counterexample):
         hypothesis = self.create_automata()
 
-        prefix_size = 1
-        sift_result = self.__sift(counterexample[:prefix_size])
-        reaching_state = hypothesis.reaching_state(counterexample[:prefix_size])
+        sift_result = self.__sift(counterexample)
+        reaching_state = hypothesis.reaching_state(counterexample)
 
-        while prefix_size < len(counterexample):
+        if self.root_node.right == None or self.root_node.left == None:
+            assert self.__add_counterexample_initialization(counterexample)
+            return         
 
-            if sift_result == None: # from initialization
-                if self.root_node.right == None:
-                    self.root_node.right = Node(counterexample[:prefix_size], self.root_node)
-                else:
-                    self.root_node.left = Node(counterexample[:prefix_size], self.root_node)
-                return
-            
-            if sift_result.value != reaching_state:
+        min_p = 0
+        max_p = len(counterexample)
+        prefix_size = len(counterexample) // 2
+        while True:
+            if max_p - min_p <= 1: # terminate loop
+                prefix_size += 1
+                sift_result = self.__sift(counterexample[:prefix_size])
+                reaching_state = hypothesis.reaching_state(counterexample[:prefix_size])
                 break
-            prefix_size += 1
+
             sift_result = self.__sift(counterexample[:prefix_size])
             reaching_state = hypothesis.reaching_state(counterexample[:prefix_size])
+            
+            if sift_result.value == reaching_state:
+                min_p = prefix_size
+            else:
+                max_p = prefix_size
+            prefix_size = (min_p + max_p) // 2
+        
 
         node = self.__sift(counterexample[:prefix_size-1]) # the access string of prefix - 1
         prev_node = node.parent
@@ -105,6 +113,20 @@ class Classification_Tree(Data_Structure):
         else:
             node.right = Node(counterexample[:prefix_size-1], node)
             node.left = Node(old_node_value, node)
+
+
+    def __add_counterexample_initialization(self, counterexample):
+        for i in range (1, len(counterexample)):
+            sift_result = self.__sift(counterexample[:i])
+
+            if sift_result == None:
+                if self.root_node.right == None:
+                    self.root_node.right = Node(counterexample[:i], self.root_node)
+                else:
+                    self.root_node.left = Node(counterexample[:i], self.root_node)
+                return True
+        
+        return False
 
 
     def __sift(self, string) -> Node:
